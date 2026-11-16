@@ -1,745 +1,1013 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ranjith Cheeroli - Professional Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #4f46e5;
-            --primary-glow: rgba(79, 70, 229, 0.35);
-            --secondary: #38bdf8;
-            --accent: #f59e0b;
-            --dark-bg: #030712;
-            --card-bg: rgba(17, 24, 39, 0.75);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border: rgba(255, 255, 255, 0.08);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ranjith C — Interactive Online CV & Cover Letter</title>
+  <style>
+    :root {
+      --bg-deep: #070d19;
+      --bg-navy: #0f1b33;
+      --card-bg: rgba(15, 27, 51, 0.78);
+      --card-border: rgba(148, 163, 184, 0.18);
+      --accent-gold: #e2b857;
+      --accent-cyan: #38bdf8;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-soft: #cbd5e1;
+      --pill-bg: rgba(56, 189, 248, 0.12);
+      --pill-border: rgba(56, 189, 248, 0.3);
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            scroll-behavior: smooth;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, var(--dark-bg) 65%);
-            color: var(--text-main);
-            overflow-x: hidden;
-            position: relative;
-            min-height: 100vh;
-        }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-        /* Ambient Animated Background Orbs */
-        .ambient-glow {
-            position: fixed;
-            top: -20vh;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 500px;
-            background: linear-gradient(135deg, rgba(79, 70, 229, 0.15), rgba(56, 189, 248, 0.1));
-            filter: blur(120px);
-            border-radius: 50%;
-            z-index: 0;
-            pointer-events: none;
-            animation: pulseOrb 8s ease-in-out infinite alternate;
-        }
+    /* Animated Canvas Background */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      pointer-events: none;
+    }
 
-        @keyframes pulseOrb {
-            0% { transform: translateX(-50%) scale(1); opacity: 0.7; }
-            100% { transform: translateX(-50%) scale(1.15); opacity: 1; }
-        }
+    /* Ambient Glow Overlay */
+    .ambient-glow {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.12), transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(226, 184, 87, 0.10), transparent 45%);
+      pointer-events: none;
+    }
 
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 4rem;
+    }
 
-        .particle {
-            position: absolute;
-            background: var(--secondary);
-            border-radius: 50%;
-            opacity: 0.25;
-            animation: floatParticle 18s infinite linear;
-        }
+    /* Top Control Bar & Toggle */
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      background: rgba(15, 27, 51, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      padding: 0.75rem 1.25rem;
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      position: sticky;
+      top: 1rem;
+      z-index: 50;
+    }
 
-        @keyframes floatParticle {
-            0% { transform: translateY(105vh) translateX(0); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(-10vh) translateX(80px); opacity: 0; }
-        }
+    .toggle-group {
+      display: inline-flex;
+      background: rgba(7, 13, 25, 0.8);
+      padding: 0.3rem;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      position: relative;
+    }
 
-        .wrapper {
-            position: relative;
-            z-index: 1;
-            max-width: 920px;
-            margin: 0 auto;
-            padding: 2.5rem 1.5rem;
-        }
+    .toggle-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      font-weight: 600;
+      padding: 0.55rem 1.25rem;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        /* Header & Hero Section */
-        header {
-            text-align: center;
-            padding: 3.5rem 1rem 2rem 1rem;
-            animation: fadeInDown 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+    .toggle-btn:hover {
+      color: var(--text-main);
+    }
 
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .toggle-btn.active {
+      background: linear-gradient(135deg, #1e3a8a, #0284c7);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+    }
 
-        .avatar-container {
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 1.5rem auto;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.8rem;
-            font-weight: 800;
-            color: white;
-            box-shadow: 0 0 35px var(--primary-glow);
-            animation: pulseGlow 3s infinite alternate;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease;
-        }
+    .action-btns {
+      display: flex;
+      gap: 0.65rem;
+    }
 
-        .avatar-container:hover {
-            transform: scale(1.06) rotate(3deg);
-        }
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text-soft);
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
 
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 20px rgba(79, 70, 229, 0.3); transform: scale(1); }
-            100% { box-shadow: 0 0 45px rgba(56, 189, 248, 0.6); transform: scale(1.03); }
-        }
+    .btn-outline:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+      background: rgba(226, 184, 87, 0.08);
+    }
 
-        header h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 0.4rem;
-            background: linear-gradient(to right, #ffffff, #cbd5e1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-        }
+    /* Main Glass Card */
+    .main-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--card-border);
+      border-radius: 22px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      animation: fadeSlideUp 0.5s ease-out;
+    }
 
-        .typing-subtitle {
-            font-size: 1.15rem;
-            color: var(--secondary);
-            font-weight: 600;
-            min-height: 1.8rem;
-            letter-spacing: 0.3px;
-            margin-bottom: 1.2rem;
-        }
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        /* Action Buttons & Contact Pill */
-        .header-actions {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
-        }
+    /* Header Banner */
+    .hero-header {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(23, 37, 84, 0.9) 60%, rgba(12, 74, 110, 0.85) 100%);
+      padding: 2.75rem 2.5rem;
+      border-bottom: 1px solid rgba(226, 184, 87, 0.25);
+      position: relative;
+    }
 
-        .contact-pill {
-            display: inline-flex;
-            gap: 1.2rem;
-            background: rgba(17, 24, 39, 0.85);
-            border: 1px solid var(--border);
-            padding: 0.6rem 1.4rem;
-            border-radius: 50px;
-            font-size: 0.92rem;
-            color: var(--text-muted);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            backdrop-filter: blur(12px);
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-gold);
+      background: rgba(226, 184, 87, 0.12);
+      border: 1px solid rgba(226, 184, 87, 0.35);
+      padding: 0.28rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.85rem;
+      font-weight: 700;
+    }
 
-        .contact-pill a {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            color: var(--text-main);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
+    .hero-header h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      margin-bottom: 0.35rem;
+    }
 
-        .contact-pill a:hover {
-            color: var(--secondary);
-        }
+    .hero-subtitle {
+      font-size: 1.08rem;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      letter-spacing: 0.04em;
+      margin-bottom: 1.25rem;
+    }
 
-        .btn-cover-letter {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 0.65rem 1.4rem;
-            border-radius: 50px;
-            font-size: 0.92rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.4);
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+    .contact-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 1.75rem;
+      font-size: 0.92rem;
+      color: var(--text-soft);
+    }
 
-        .btn-cover-letter:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(56, 189, 248, 0.6);
-        }
+    .contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
 
-        /* Glass Cards */
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 2.2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 35px 0 rgba(0, 0, 0, 0.45);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            position: relative;
-            overflow: hidden;
-        }
+    .contact-item a {
+      color: var(--text-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
-            opacity: 0.85;
-        }
+    .contact-item a:hover {
+      color: var(--accent-gold);
+    }
 
-        .card:nth-child(2) { animation-delay: 0.2s; }
-        .card:nth-child(3) { animation-delay: 0.3s; }
-        .card:nth-child(4) { animation-delay: 0.4s; }
-        .card:nth-child(5) { animation-delay: 0.5s; }
+    /* Key Highlights Bar */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      padding: 1.25rem 2.5rem;
+      background: rgba(7, 13, 25, 0.45);
+      border-bottom: 1px solid var(--card-border);
+    }
 
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .metric-box {
+      text-align: center;
+      padding: 0.5rem;
+    }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 18px 45px 0 rgba(79, 70, 229, 0.22);
-            border-color: rgba(79, 70, 229, 0.4);
-        }
+    .metric-val {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--accent-gold);
+      display: block;
+    }
 
-        h2 {
-            font-size: 1.65rem;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 1.4rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid rgba(79, 70, 229, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
+    .metric-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
 
-        p.about-text {
-            color: var(--text-muted);
-            font-size: 1.02rem;
-            line-height: 1.75;
-            margin-bottom: 1.1rem;
-            text-align: justify;
-        }
+    /* View Panels */
+    .view-panel {
+      padding: 2.5rem;
+      display: none;
+      animation: fadePanel 0.35s ease;
+    }
 
-        /* Grid Layouts */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.2rem;
-            margin-top: 1.4rem;
-        }
+    .view-panel.active {
+      display: block;
+    }
 
-        .info-item {
-            background: rgba(3, 7, 18, 0.6);
-            padding: 1.2rem;
-            border-radius: 12px;
-            border-left: 4px solid var(--secondary);
-            transition: transform 0.3s ease, background 0.3s ease;
-        }
+    @keyframes fadePanel {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .info-item:hover {
-            transform: translateY(-3px);
-            background: rgba(3, 7, 18, 0.85);
-        }
+    /* Section Styling */
+    .cv-section {
+      margin-bottom: 2.4rem;
+    }
 
-        .info-item h3 {
-            font-size: 1.02rem;
-            color: white;
-            margin-bottom: 0.25rem;
-        }
+    .cv-section:last-child {
+      margin-bottom: 0;
+    }
 
-        .info-item p {
-            color: var(--text-muted);
-            font-size: 0.92rem;
-        }
+    .section-title {
+      font-size: 1.12rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-gold);
+      border-left: 4px solid var(--accent-cyan);
+      padding-left: 0.85rem;
+      margin-bottom: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-        /* Timeline Items */
-        .timeline-item {
-            position: relative;
-            padding-left: 2rem;
-            border-left: 2px solid rgba(56, 189, 248, 0.35);
-            margin-bottom: 2.2rem;
-        }
+    .summary-text {
+      color: var(--text-soft);
+      font-size: 0.98rem;
+      background: rgba(255, 255, 255, 0.025);
+      padding: 1.2rem 1.4rem;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.1);
+    }
 
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
+    /* Competency Pills */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
 
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -7px;
-            top: 4px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--secondary);
-            box-shadow: 0 0 10px var(--secondary);
-            transition: transform 0.3s ease;
-        }
+    .skill-pill {
+      background: var(--pill-bg);
+      border: 1px solid var(--pill-border);
+      color: #e0f2fe;
+      padding: 0.42rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: transform 0.2s, background 0.2s;
+    }
 
-        .timeline-item:hover::before {
-            transform: scale(1.3);
-            background: var(--accent);
-            box-shadow: 0 0 14px var(--accent);
-        }
+    .skill-pill:hover {
+      transform: translateY(-2px);
+      background: rgba(56, 189, 248, 0.22);
+    }
 
-        .timeline-item h3 {
-            font-size: 1.2rem;
-            color: white;
-            font-weight: 700;
-        }
+    /* Experience Timeline */
+    .exp-item {
+      position: relative;
+      padding-left: 1.5rem;
+      border-left: 2px solid rgba(56, 189, 248, 0.35);
+      margin-bottom: 2rem;
+    }
 
-        .timeline-item .company {
-            color: var(--secondary);
-            font-weight: 600;
-            font-size: 0.98rem;
-            margin-bottom: 0.2rem;
-        }
+    .exp-item:last-child {
+      margin-bottom: 0;
+    }
 
-        .timeline-item .date {
-            font-size: 0.82rem;
-            color: var(--accent);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 0.6rem;
-        }
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: -7px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      box-shadow: 0 0 10px rgba(226, 184, 87, 0.7);
+    }
 
-        .timeline-item ul {
-            margin: 0.4rem 0 0 1.1rem;
-            color: var(--text-muted);
-        }
+    .exp-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
 
-        .timeline-item li {
-            margin-bottom: 0.35rem;
-            font-size: 0.92rem;
-            line-height: 1.6;
-        }
+    .exp-role {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
 
-        /* Skills Progress & Tags */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.2rem;
-        }
+    .exp-date {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 0.2rem 0.65rem;
+      border-radius: 6px;
+    }
 
-        .skill-box {
-            background: rgba(3, 7, 18, 0.55);
-            padding: 1.1rem 1.2rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
+    .exp-org {
+      font-size: 0.94rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+      margin-bottom: 0.75rem;
+    }
 
-        .skill-box:hover {
-            border-color: var(--primary);
-            background: rgba(79, 70, 229, 0.1);
-            transform: translateY(-3px);
-        }
+    .exp-list {
+      list-style: none;
+      display: grid;
+      gap: 0.5rem;
+    }
 
-        .skill-name {
-            font-size: 0.92rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-        }
+    .exp-list li {
+      position: relative;
+      padding-left: 1.25rem;
+      font-size: 0.93rem;
+      color: var(--text-soft);
+    }
 
-        .skill-bar-bg {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 3px;
-            overflow: hidden;
-        }
+    .exp-list li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: var(--accent-cyan);
+      font-weight: bold;
+    }
 
-        .skill-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 3px;
-            width: 0;
-            transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+    /* Two-Column Grid for Bottom Sections */
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.75rem;
+    }
 
-        .tag-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.55rem;
-            margin-top: 0.9rem;
-        }
+    .info-card {
+      background: rgba(7, 13, 25, 0.45);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
+    }
 
-        .tag {
-            background: rgba(79, 70, 229, 0.15);
-            border: 1px solid rgba(79, 70, 229, 0.3);
-            color: #c7d2fe;
-            padding: 0.35rem 0.85rem;
-            border-radius: 50px;
-            font-size: 0.82rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
+    .info-list {
+      list-style: none;
+      display: grid;
+      gap: 0.55rem;
+      font-size: 0.91rem;
+      color: var(--text-soft);
+    }
 
-        .tag:hover {
-            background: var(--primary);
-            color: white;
-            transform: scale(1.05);
-        }
+    .info-list li strong {
+      color: #ffffff;
+    }
 
-        /* Modal Popup for Cover Letter */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(3, 7, 18, 0.8);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
+    /* Cover Letter Styling */
+    .cover-letter-box {
+      max-width: 780px;
+      margin: 0 auto;
+      background: rgba(7, 13, 25, 0.5);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 16px;
+      padding: 2.5rem;
+    }
 
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+    .cl-meta {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
 
-        .modal-content {
-            background: #111827;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 20px;
-            width: 90%;
-            max-width: 700px;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 2.5rem;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
-            position: relative;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
+    .cl-subject {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin-bottom: 1.25rem;
+    }
 
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
+    .cl-body p {
+      margin-bottom: 1.1rem;
+      color: var(--text-soft);
+      font-size: 0.97rem;
+    }
 
-        .modal-close {
-            position: absolute;
-            top: 1.2rem;
-            right: 1.5rem;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.8rem;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
+    .cl-highlights {
+      margin: 1.25rem 0;
+      padding: 1.1rem 1.4rem;
+      background: rgba(56, 189, 248, 0.07);
+      border-left: 3px solid var(--accent-cyan);
+      border-radius: 0 10px 10px 0;
+    }
 
-        .modal-close:hover {
-            color: white;
-        }
+    .cl-highlights ul {
+      list-style: none;
+      display: grid;
+      gap: 0.5rem;
+    }
 
-        .cover-letter-text {
-            color: var(--text-muted);
-            font-size: 0.98rem;
-            line-height: 1.75;
-            margin-bottom: 1rem;
-            text-align: justify;
-        }
+    .cl-highlights li {
+      padding-left: 1.2rem;
+      position: relative;
+      font-size: 0.93rem;
+      color: #e2e8f0;
+    }
 
-        footer {
-            text-align: center;
-            padding: 2.5rem 1rem;
-            color: var(--text-muted);
-            font-size: 0.88rem;
-            border-top: 1px solid var(--border);
-            margin-top: 2rem;
-            position: relative;
-            z-index: 1;
-        }
+    .cl-highlights li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--accent-gold);
+      font-weight: bold;
+    }
 
-        @media (max-width: 768px) {
-            header h1 { font-size: 2.2rem; }
-            .card { padding: 1.5rem; }
-            .modal-content { padding: 1.5rem; }
-        }
-    </style>
+    .cl-signoff {
+      margin-top: 1.75rem;
+    }
+
+    .cl-signature {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 0.4rem;
+    }
+
+    /* Customizer Input inside Cover Letter */
+    .cl-customizer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding: 0.85rem 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      border: 1px dashed rgba(226, 184, 87, 0.35);
+      align-items: center;
+    }
+
+    .cl-customizer label {
+      font-size: 0.82rem;
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    .cl-customizer input {
+      background: rgba(7, 13, 25, 0.8);
+      border: 1px solid var(--card-border);
+      color: #ffffff;
+      padding: 0.4rem 0.75rem;
+      border-radius: 7px;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .cl-customizer input:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #111827 !important;
+      }
+      #bg-canvas, .ambient-glow, .top-bar, .cl-customizer {
+        display: none !important;
+      }
+      .container {
+        max-width: 100%;
+        padding: 0;
+      }
+      .main-card {
+        background: #ffffff !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+      .hero-header {
+        background: #0f172a !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .view-panel {
+        padding: 1.5rem 0;
+      }
+      .summary-text, .info-card, .cover-letter-box {
+        background: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #1e293b !important;
+      }
+      .exp-role, .info-list li strong, .cl-signature {
+        color: #0f172a !important;
+      }
+      .exp-list li, .info-list li, .cl-body p, .cl-highlights li {
+        color: #334155 !important;
+      }
+      .section-title, .exp-org, .cl-subject {
+        color: #1e3a8a !important;
+      }
+      .skill-pill {
+        background: #e2e8f0 !important;
+        color: #0f172a !important;
+        border: 1px solid #94a3b8 !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-header {
+        padding: 2rem 1.5rem;
+      }
+      .hero-header h1 {
+        font-size: 1.85rem;
+      }
+      .view-panel {
+        padding: 1.5rem;
+      }
+      .cover-letter-box {
+        padding: 1.5rem;
+      }
+      .top-bar {
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Animated Particle Network Canvas -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="ambient-glow"></div>
 
-    <div class="ambient-glow"></div>
-    <div class="particles" id="particles"></div>
+  <div class="container">
+    <!-- Sticky Navigation & Toggle Bar -->
+    <nav class="top-bar" aria-label="Document View Controls">
+      <div class="toggle-group" role="tablist">
+        <button class="toggle-btn active" id="btn-cv" role="tab" aria-selected="true" onclick="switchView('cv')">
+          <span>📄</span> Curriculum Vitae
+        </button>
+        <button class="toggle-btn" id="btn-cl" role="tab" aria-selected="false" onclick="switchView('cl')">
+          <span>✉️</span> Cover Letter
+        </button>
+      </div>
 
-    <div class="wrapper">
-        <header>
-            <div class="avatar-container">RC</div>
-            <h1>Ranjith Cheeroli</h1>
-            <div class="typing-subtitle" id="typing-text">Administrative Supervisor | Financial Administrator & IT Specialist</div>
-            
-            <div class="header-actions">
-                <div class="contact-pill">
-                    <span><a href="https://maps.google.com/?q=Manama,Bahrain" target="_blank">📍 Manama, Bahrain</a></span>
-                    <span><a href="tel:+97332250487">📞 +973 32250487</a></span>
-                    <span><a href="mailto:ranjithjakson@gmail.com">✉️ ranjithjakson@gmail.com</a></span>
-                </div>
-                <button class="btn-cover-letter" onclick="toggleModal(true)">📄 Read Cover Letter</button>
+      <div class="action-btns">
+        <button class="btn-outline" onclick="window.print()" title="Print or Save as PDF">
+          <span>🖨️</span> Print / Save PDF
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="main-card">
+      <!-- Shared Profile Header -->
+      <header class="hero-header">
+        <span class="hero-badge">9+ Years U.S. Navy &amp; Operations Experience</span>
+        <h1>RANJITH C</h1>
+        <div class="hero-subtitle">ADMINISTRATIVE ASSISTANT | FINANCIAL &amp; OPERATIONS SUPPORT</div>
+        <div class="contact-strip">
+          <span class="contact-item">📍 Manama, Bahrain</span>
+          <span class="contact-item">📞 <a href="tel:+97332250487">+973 32250487</a></span>
+          <span class="contact-item">✉️ <a href="mailto:ranjithcheeroli@outlook.com">ranjithcheeroli@outlook.com</a></span>
+        </div>
+      </header>
+
+      <!-- Key Impact Metrics -->
+      <div class="metrics-bar">
+        <div class="metric-box">
+          <span class="metric-val">9+ Years</span>
+          <span class="metric-label">Admin &amp; Navy Ops</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-val">$10M+</span>
+          <span class="metric-label">Cash Collections Managed</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-val">4× 5-Star</span>
+          <span class="metric-label">CNIC Accreditations</span>
+        </div>
+        <div class="metric-box">
+          <span class="metric-val">2× Ney Awards</span>
+          <span class="metric-label">Capt. Edward F. Ney</span>
+        </div>
+      </div>
+
+      <!-- ==================== CV VIEW ==================== -->
+      <section id="view-cv" class="view-panel active">
+        <!-- Professional Summary -->
+        <div class="cv-section">
+          <h2 class="section-title">Professional Summary</h2>
+          <p class="summary-text">
+            Food service and administrative operations professional with 9+ years of combined experience in U.S. Navy galley operations, administrative supervision, financial administration, accounting support, and IT services. Experienced in food safety monitoring, quality assurance, inventory control, cash handling, financial documentation, staff training, and high-volume service environments. Recognized for maintaining operational standards, supporting accurate financial controls, and coordinating teams to deliver dependable service. Brings a strong blend of food service leadership, customer service, organization, and technical skills.
+          </p>
+        </div>
+
+        <!-- Core Competencies -->
+        <div class="cv-section">
+          <h2 class="section-title">Core Competencies</h2>
+          <div class="skills-grid">
+            <span class="skill-pill">Food Safety &amp; Quality Assurance</span>
+            <span class="skill-pill">Food Service Operations</span>
+            <span class="skill-pill">Inventory &amp; Menu Controls</span>
+            <span class="skill-pill">Financial Documentation &amp; Reporting</span>
+            <span class="skill-pill">Cash Handling &amp; Reconciliation</span>
+            <span class="skill-pill">Staff Supervision &amp; Training</span>
+            <span class="skill-pill">Customer Service</span>
+            <span class="skill-pill">Food &amp; Beverage Preparation</span>
+            <span class="skill-pill">POS Systems</span>
+            <span class="skill-pill">Operational Planning</span>
+            <span class="skill-pill">Records &amp; Office Administration</span>
+            <span class="skill-pill">Microsoft Office</span>
+            <span class="skill-pill">IT Support &amp; Troubleshooting</span>
+          </div>
+        </div>
+
+        <!-- Professional Experience -->
+        <div class="cv-section">
+          <h2 class="section-title">Professional Experience</h2>
+
+          <!-- Role 1 -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <div class="exp-role">Administrative Assistant / U.S. Navy Food Service Management Specialist</div>
+              <span class="exp-date">Sept 2018 – Jun 2026</span>
             </div>
-        </header>
+            <div class="exp-org">U.S. Navy Galley, Naval Support Activity (KBR) | Bahrain</div>
+            <ul class="exp-list">
+              <li>Managed daily front-desk and administrative office operations for a U.S. Navy facility, greeting military and civilian personnel and routing 50+ daily phone calls, official correspondence, and emails.</li>
+              <li>Scheduled and coordinated command meetings, inspections, appointments, and conference room bookings using Microsoft Outlook.</li>
+              <li>Maintained physical and digital filing systems in compliance with strict military recordkeeping, privacy, and audit standards.</li>
+              <li>Ordered and tracked administrative and operational supplies, coordinating with approved vendors to maintain inventory readiness within budget constraints.</li>
+              <li>Prepared and proofread official memos, Standard Operating Procedures (SOPs), financial/operational reports, and correspondence using Microsoft Office Suite (Word, Excel, PowerPoint).</li>
+              <li>Entered and updated 500+ personnel, inventory, and operational records in Excel and internal tracking databases with 100% accuracy.</li>
+              <li>Coordinated official travel itineraries and processed monthly expense and operational reports for 25+ team members and supervisory staff.</li>
+              <li>Assisted HR and base security with new hire onboarding by coordinating base access badges, CAC/pass clearances, workstations, and orientation materials.</li>
+              <li>Organized command briefings, staff training sessions, and official facility events, overseeing room logistics and food service coordination.</li>
+              <li>Resolved facility and office equipment issues promptly by submitting work orders and coordinating repairs with base public works, building management, and IT support.</li>
+              <li>Supported food service operations with a focus on safety, quality, operational efficiency, inventory accuracy, and financial accountability.</li>
+              <li>Implemented and monitored food safety sampling practices during production and service; checked and documented food temperatures in accordance with NAVSUP 1090 and Tri-Service Food Code guidance.</li>
+              <li>Reviewed inventory requests using NAVSUP Form 1282 and aligned food items with menu requirements, supporting inventory validity, financial controls, efficiency, and waste reduction.</li>
+              <li>Prepared and maintained financial records, including Cash Receipt Books (NAVSUP Form 470), daily Recapitulation of Meals Records (NAVSUP Form 1292), and monthly credit-card transaction recaps.</li>
+              <li>Conducted daily personnel inspections to reinforce hygiene, sanitation, and safety requirements and promote accountability among food service staff.</li>
+              <li>Contributed to recognition for service excellence, including four Five-Star Accreditations from CNIC and two Captain Edward F. Ney Awards.</li>
+              <li>Analyzed financial performance, including income-statement variances; prepared budgets and monthly/quarterly accounting activities and reviewed financial reports.</li>
+              <li>Managed cash collections totaling more than $10 million; trained and mentored four administrative assistants and maintained compliance with policies and accuracy standards.</li>
+              <li>Oversaw office equipment maintenance and reception support; improved filing and organizational practices, generating $3,000 in annual labor cost savings.</li>
+              <li>Greeted and served customers in a high-volume environment, supporting a welcoming dining experience and customer satisfaction.</li>
+              <li>Prepared and served food and beverages in accordance with service and quality standards.</li>
+              <li>Handled cash transactions and operated POS systems accurately to process sales and help minimize customer wait times.</li>
+              <li>Worked collaboratively with team members to maintain clean, organized work areas and efficient service.</li>
+            </ul>
+          </div>
 
-        <!-- About Me Card -->
-        <div class="card">
-            <h2>Professional Summary</h2>
-            <p class="about-text">
-                Administrative and technical support professional with over 9 years of combined experience in administrative operations, financial administration, accounting assistance, and IT support. Currently serving as an Administrative Supervisor in Bahrain with proven excellence in financial analysis, budgeting, accounting activities, cash collection exceeding $10M, office coordination, equipment oversight, and team supervision.
+          <!-- Role 2 -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <div class="exp-role">Administrative Assistant</div>
+              <span class="exp-date">Feb 2016 – Aug 2018</span>
+            </div>
+            <div class="exp-org">U.S. Navy Galley, Isa Air Base, Al Durat | Bahrain</div>
+            <ul class="exp-list">
+              <li>Prepared correspondence, memoranda, weekly reports, and management documents.</li>
+              <li>Managed incoming messages and correspondence and distributed information accurately to relevant personnel.</li>
+              <li>Maintained office supply inventories and followed budgeting practices; received visitors and scheduled appointments.</li>
+              <li>Transcribed and distributed meeting minutes.</li>
+            </ul>
+          </div>
+
+          <!-- Role 3 -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <div class="exp-role">Assistant Accountant &amp; Tax Consultant Assistant – Part-Time</div>
+              <span class="exp-date">Apr 2012 – Feb 2015</span>
+            </div>
+            <div class="exp-org">Reshma Associates Tax Consulting | Tirur</div>
+            <ul class="exp-list">
+              <li>Managed accounting transactions, prepared budget forecasts, and supported financial statement preparation.</li>
+              <li>Reconciled accounts, maintained supporting documentation, and helped ensure timely payments.</li>
+              <li>Calculated taxes, prepared tax returns, and reported on financial health and liquidity.</li>
+            </ul>
+          </div>
+
+          <!-- Role 4 -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <div class="exp-role">Desktop Support Engineer</div>
+              <span class="exp-date">2010 – 2011</span>
+            </div>
+            <div class="exp-org">Associated Computers | Tirur, Kerala, India</div>
+            <ul class="exp-list">
+              <li>Configured and maintained computer systems and networks in Windows, Linux, and Ubuntu environments.</li>
+              <li>Diagnosed technical issues and assisted office users; installed hardware, peripherals, operating systems, and application software.</li>
+              <li>Managed antivirus software and network printer installations.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Certifications & Computer Skills -->
+        <div class="cv-section two-col">
+          <div class="info-card">
+            <h2 class="section-title">Certifications &amp; Qualifications</h2>
+            <ul class="info-list">
+              <li><strong>Food Handler’s Certification</strong> – Issued by KBR.</li>
+              <li><strong>Food Safety Certification Course</strong> – Completed.</li>
+              <li><strong>Collections Information Repository (CIR)</strong> – Completed; U.S. Treasury Point-of-Sale (POS) reporting tool.</li>
+              <li><strong>Typing Speed:</strong> 70 WPM with high accuracy; proficient in touch typing and data entry.</li>
+            </ul>
+          </div>
+
+          <div class="info-card">
+            <h2 class="section-title">Computer &amp; Technical Skills</h2>
+            <ul class="info-list">
+              <li><strong>POS Systems:</strong> Experienced in POS operation, sales processing, and cash register transactions.</li>
+              <li><strong>Microsoft Office:</strong> Word, Excel, and PowerPoint for documentation, reports, and presentations.</li>
+              <li><strong>Operating Systems:</strong> Windows 2000 Server, Server 2003, XP, Vista, Windows 7/8/10, Linux, and Ubuntu.</li>
+              <li><strong>IT &amp; Networking:</strong> LAN configuration, hardware/software installation, printer setup, antivirus management, and troubleshooting.</li>
+              <li><strong>Strengths:</strong> Communication, organization, attention to detail, teamwork, and independent execution.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Education, Languages, Personal & Reference -->
+        <div class="cv-section two-col">
+          <div class="info-card">
+            <h2 class="section-title">Education &amp; Languages</h2>
+            <ul class="info-list">
+              <li><strong>Bachelor of Computer Applications (BCA)</strong> – Calicut University, Kerala, India</li>
+              <li><strong>Higher Secondary Examination (Plus-Two)</strong> – Kerala, India</li>
+              <li><strong>Secondary School Leaving Certificate (SSLC)</strong> – Board of Public Examination, Kerala, India</li>
+              <li style="margin-top: 0.4rem;"><strong>Languages:</strong> English (Fluent) | Hindi (Fluent) | Tamil (Conversational)</li>
+            </ul>
+          </div>
+
+          <div class="info-card">
+            <h2 class="section-title">Additional Info &amp; Reference</h2>
+            <ul class="info-list">
+              <li><strong>Location:</strong> Manama, Bahrain | <strong>Nationality:</strong> Indian</li>
+              <li><strong>Permanent Address:</strong> Malappuram District, Kerala, India</li>
+              <li><strong>Driving License:</strong> 940223392</li>
+              <li style="margin-top: 0.4rem; padding-top: 0.5rem; border-top: 1px solid rgba(148,163,184,0.15);">
+                <strong>Professional Reference:</strong><br />
+                K. Vijay “Ponch” Singh, CWO4, SC, USN<br />
+                Director, Navy Food Management Team (NFMT) / Fleet Assist Team (FAT) – NAVSUP FLC Pearl Harbor, Hawaii<br />
+                NIPR: <a href="mailto:keerat.v.singh.mil@us.navy.mil" style="color: var(--accent-cyan);">keerat.v.singh.mil@us.navy.mil</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== COVER LETTER VIEW ==================== -->
+      <section id="view-cl" class="view-panel">
+        <div class="cover-letter-box">
+          <!-- Interactive Quick-Tailor Bar -->
+          <div class="cl-customizer">
+            <label for="target-company">Customize Recipient:</label>
+            <input type="text" id="target-company" placeholder="Company / Organization Name" oninput="updateCoverLetter()" />
+            <input type="text" id="target-role" placeholder="Target Job Title (e.g. Senior Admin)" oninput="updateCoverLetter()" />
+          </div>
+
+          <div class="cl-meta">
+            <div>
+              <strong style="color: #fff;">To: Hiring Manager</strong><br />
+              <span id="cl-company-display">Human Resources Department</span>
+            </div>
+            <div style="text-align: right;">
+              <strong style="color: #fff;">Manama, Bahrain</strong><br />
+              <span>+973 32250487 | ranjithcheeroli@outlook.com</span>
+            </div>
+          </div>
+
+          <div class="cl-subject">
+            Application for <span id="cl-role-display">Administrative &amp; Operations Support</span> Position
+          </div>
+
+          <div class="cl-body">
+            <p>Dear Hiring Manager,</p>
+
+            <p>
+              I am writing to express my strong interest in the <strong id="cl-role-inline" style="color: #fff;">Administrative &amp; Operations Support</strong> role at <strong id="cl-company-inline" style="color: #fff;">your organization</strong>. With over nine years of dedicated experience supporting U.S. Navy galley and base operations in Bahrain—combined with hands-on expertise in financial administration, accounting support, inventory control, and IT troubleshooting—I bring a disciplined, detail-oriented approach to keeping fast-paced offices and operational teams running at peak efficiency.
             </p>
-            <p class="about-text">
-                Adept at preparing reports, maintaining records, coordinating correspondence, and managing routine office requirements. Skilled in bridging administrative efficiency with robust technical expertise across Windows and Linux environments, hardware/software installation, network configuration, and end-user troubleshooting.
+
+            <p>
+              During my tenure with KBR at Naval Support Activity Bahrain and Isa Air Base, I served as a vital administrative and operational link between military command personnel, civilian staff, and external vendors. My background combines daily front-office administration with high-accountability financial and regulatory compliance:
             </p>
-            <div class="grid-2">
-                <div class="info-item">
-                    <h3>Current Location</h3>
-                    <p><a href="https://maps.google.com/?q=Manama,Bahrain" target="_blank" style="color: inherit; text-decoration: none;">Manama, Bahrain (Roots in Malappuram, Kerala, India)</a></p>
-                </div>
-                <div class="info-item">
-                    <h3>Education</h3>
-                    <p>Bachelor of Computer Applications (BCA) - Calicut University</p>
-                </div>
-            </div>
-        </div>
 
-        <!-- Professional Experience Card -->
-        <div class="card">
-            <h2>Professional Experience</h2>
-            
-            <div class="timeline-item">
-                <h3>Administrative Supervisor</h3>
-                <div class="company">U.S. Navy Galley, Naval Support Activity (KBR) — Bahrain</div>
-                <div class="date">September 2018 – June 2026</div>
-                <ul>
-                    <li>Analyze financial performance, including income statement variances, and communicate findings to management.</li>
-                    <li>Prepare budgets, perform monthly and quarterly accounting activities, and review financial reports.</li>
-                    <li>Manage high-volume cash collections totaling more than $10 million with absolute accuracy.</li>
-                    <li>Oversee office equipment maintenance and provide executive reception services when required.</li>
-                    <li>Train and mentor 4 administrative assistants while ensuring compliance with company policies and accuracy standards.</li>
-                    <li>Developed improved filing and organizational practices that generated $3,000 in annual labor cost savings.</li>
-                </ul>
+            <div class="cl-highlights">
+              <ul>
+                <li><strong>Financial &amp; Audit Accountability:</strong> Managed over $10 million in cash collections, reconciled daily meal and credit card records (NAVSUP Forms 470, 1282, and 1292), and performed monthly/quarterly variance reporting with 100% audit accuracy.</li>
+                <li><strong>Administrative Efficiency &amp; Cost Savings:</strong> Streamlined physical and digital recordkeeping systems, resulting in $3,000 in annual labor cost savings while training and mentoring four administrative assistants.</li>
+                <li><strong>Award-Winning Operational Standards:</strong> Played a key administrative and quality-assurance support role in earning four CNIC Five-Star Accreditations and two prestigious Captain Edward F. Ney Awards.</li>
+                <li><strong>Technical &amp; Organizational Versatility:</strong> Proficient in Microsoft Office Suite, POS reporting systems (U.S. Treasury CIR), 70 WPM typing, and hands-on IT/network troubleshooting across Windows and Linux environments.</li>
+              </ul>
             </div>
 
-            <div class="timeline-item">
-                <h3>Administrative Assistant</h3>
-                <div class="company">U.S. Navy Galley, Isa Air Base, Al Durat — Bahrain</div>
-                <div class="date">February 2016 – August 2018</div>
-                <ul>
-                    <li>Prepared official correspondence, executive memoranda, weekly reports, and meeting minutes.</li>
-                    <li>Managed incoming messages and correspondence, ensuring accurate distribution to relevant personnel.</li>
-                    <li>Maintained strict office supply inventories and followed established budgeting practices.</li>
-                </ul>
-            </div>
-
-            <div class="timeline-item">
-                <h3>Assistant Accountant & Tax Consultant Assistant (Part-Time)</h3>
-                <div class="company">Reshma Associates Tax Consulting — Tirur</div>
-                <div class="date">April 2012 – February 2015</div>
-                <ul>
-                    <li>Managed accounting transactions, budget forecasts, financial statements, and account reconciliations.</li>
-                    <li>Calculated taxes, prepared tax returns, and reported on financial health and liquidity.</li>
-                </ul>
-            </div>
-
-            <div class="timeline-item">
-                <h3>Desktop Support Engineer</h3>
-                <div class="company">Associated Computers — Tirur, Kerala, India</div>
-                <div class="date">2010 – 2011</div>
-                <ul>
-                    <li>Configured and maintained computer systems and networks across Windows (2000/2003/XP/Vista/7/8/10), Linux, and Ubuntu environments.</li>
-                    <li>Diagnosed technical issues and provided prompt end-user assistance and hardware/software installations.</li>
-                    <li>Managed antivirus software, peripheral configuration, and network printer installations.</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Core Competencies & Skills Card -->
-        <div class="card">
-            <h2>Core Competencies & Skills</h2>
-            <div class="skills-grid" style="margin-bottom: 1.5rem;">
-                <div class="skill-box">
-                    <div class="skill-name"><span>Administrative Operations</span><span>95%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="95%"></div></div>
-                </div>
-                <div class="skill-box">
-                    <div class="skill-name"><span>Financial Administration & Budgeting</span><span>92%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="92%"></div></div>
-                </div>
-                <div class="skill-box">
-                    <div class="skill-name"><span>Cash Collection & Management ($10M+)</span><span>98%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="98%"></div></div>
-                </div>
-                <div class="skill-box">
-                    <div class="skill-name"><span>IT Infrastructure & Troubleshooting</span><span>90%</span></div>
-                    <div class="skill-bar-bg"><div class="skill-bar-fill" data-width="90%"></div></div>
-                </div>
-            </div>
-
-            <h3 style="color: white; font-size: 1.05rem; margin-bottom: 0.75rem;">Technical & Operating Environments</h3>
-            <div class="tag-cloud">
-                <span class="tag">Windows (Server & Client)</span>
-                <span class="tag">Linux / Ubuntu</span>
-                <span class="tag">LAN Configuration</span>
-                <span class="tag">Microsoft Outlook</span>
-                <span class="tag">Hardware Maintenance</span>
-                <span class="tag">Network Printers</span>
-                <span class="tag">Tax Consulting & Returns</span>
-                <span class="tag">Team Training & Mentorship</span>
-            </div>
-        </div>
-
-        <!-- Interests & Personal Hobbies Card -->
-        <div class="card">
-            <h2>Interests & Personal Hobbies</h2>
-            <p class="about-text">
-                Outside of professional endeavors, I enjoy reading, drawing, listening to music, and spending quality time socializing with friends and family.
+            <p>
+              Whether coordinating command briefings, managing vendor procurement within strict budgets, onboarding personnel with security clearances, or resolving facility and IT issues promptly, I take pride in reliability, discretion, and proactive problem-solving.
             </p>
+
+            <p>
+              I would welcome the opportunity to discuss how my administrative, financial, and operational background can contribute to the continued success of <span id="cl-company-closing">your team</span>. Thank you for your time and consideration.
+            </p>
+
+            <div class="cl-signoff">
+              <p style="margin-bottom: 0.2rem;">Sincerely,</p>
+              <div class="cl-signature">Ranjith C</div>
+              <div style="font-size: 0.88rem; color: var(--text-muted);">Manama, Bahrain • +973 32250487 • ranjithcheeroli@outlook.com</div>
+            </div>
+          </div>
         </div>
-    </div>
+      </section>
+    </main>
+  </div>
 
-    <!-- Cover Letter Modal -->
-    <div class="modal-overlay" id="coverModal" onclick="if(event.target === this) toggleModal(false)">
-        <div class="modal-content">
-            <button class="modal-close" onclick="toggleModal(false)">&times;</button>
-            <h2 style="margin-bottom: 1.2rem; border-bottom: 2px solid rgba(56, 189, 248, 0.3); padding-bottom: 0.5rem;">Cover Letter</h2>
-            <p class="cover-letter-text">Dear Hiring Manager,</p>
-            <p class="cover-letter-text">I am writing to express my interest in an Administrative Supervisor, Administrative Assistant, or IT Support position within your organization. With over nine years of combined experience in administrative operations, financial administration, accounting assistance, and technical support, I bring a versatile skill set, strong organizational abilities, and a commitment to maintaining efficient daily operations.</p>
-            <p class="cover-letter-text">In my most recent role as an Administrative Supervisor at the U.S. Navy Galley, Naval Support Activity (KBR), Bahrain, I was responsible for financial reporting, budget preparation, accounting activities, cash collection, office equipment oversight, and administrative team supervision. I managed cash collections exceeding $10 million, trained and mentored four administrative assistants, and implemented improved filing and organizational practices that generated $3,000 in annual labor cost savings.</p>
-            <p class="cover-letter-text">My previous experience as an Administrative Assistant strengthened my capabilities in correspondence management, report preparation, appointment scheduling, inventory control, and meeting coordination. In addition, my background in accounting and tax consultancy provided experience in financial statement preparation, account reconciliation, budget forecasting, and tax documentation. Earlier in my career, I worked as a Desktop Support Engineer, developing technical skills in Windows and Linux operating systems, hardware and software installation, network configuration, printer setup, and end-user troubleshooting.</p>
-            <p class="cover-letter-text">With a Bachelor of Computer Applications (BCA), I offer a combination of administrative expertise, financial awareness, team coordination, and IT support knowledge. I am confident in my ability to contribute to operational efficiency, accurate documentation, effective communication, and reliable support for management and colleagues.</p>
-            <p class="cover-letter-text" style="margin-top: 1.5rem;">Thank you for considering my application. I welcome the opportunity to discuss how my experience and skills can contribute to your organization's success.</p>
-            <p class="cover-letter-text" style="margin-top: 1rem; color: white; font-weight: 600;">Sincerely,<br>Ranjith C<br>Manama, Bahrain<br>+973 32250487<br>ranjithjakson@gmail.com</p>
-        </div>
-    </div>
+  <script>
+    // Toggle between CV and Cover Letter
+    function switchView(view) {
+      const cvPanel = document.getElementById('view-cv');
+      const clPanel = document.getElementById('view-cl');
+      const btnCv = document.getElementById('btn-cv');
+      const btnCl = document.getElementById('btn-cl');
 
-    <footer>
-        <p>&copy; 2026 Ranjith Cheeroli. All rights reserved. Designed with professional executive aesthetics & motion.</p>
-    </footer>
+      if (view === 'cv') {
+        cvPanel.classList.add('active');
+        clPanel.classList.remove('active');
+        btnCv.classList.add('active');
+        btnCl.classList.remove('active');
+        btnCv.setAttribute('aria-selected', 'true');
+        btnCl.setAttribute('aria-selected', 'false');
+      } else {
+        clPanel.classList.add('active');
+        cvPanel.classList.remove('active');
+        btnCl.classList.add('active');
+        btnCv.classList.remove('active');
+        btnCl.setAttribute('aria-selected', 'true');
+        btnCv.setAttribute('aria-selected', 'false');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-    <script>
-        // Floating particles generator
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 25; i++) {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            const size = Math.random() * 3 + 2;
-            p.style.width = size + 'px';
-            p.style.height = size + 'px';
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.animationDuration = (Math.random() * 14 + 10) + 's';
-            p.style.animationDelay = (Math.random() * 5) + 's';
-            particlesContainer.appendChild(p);
+    // Dynamic Cover Letter Customizer
+    function updateCoverLetter() {
+      const companyVal = document.getElementById('target-company').value.trim();
+      const roleVal = document.getElementById('target-role').value.trim();
+
+      document.getElementById('cl-company-display').textContent = companyVal || 'Human Resources Department';
+      document.getElementById('cl-company-inline').textContent = companyVal || 'your organization';
+      document.getElementById('cl-company-closing').textContent = companyVal || 'your team';
+
+      const roleText = roleVal || 'Administrative & Operations Support';
+      document.getElementById('cl-role-display').textContent = roleText;
+      document.getElementById('cl-role-inline').textContent = roleText;
+    }
+
+    // Interactive Navy Constellation / Particle Network Background
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let width, height;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.45;
+        this.vy = (Math.random() - 0.5) * 0.45;
+        this.radius = Math.random() * 2 + 1;
+        this.isGold = Math.random() > 0.78;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.isGold ? 'rgba(226, 184, 87, 0.55)' : 'rgba(56, 189, 248, 0.45)';
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = Math.min(Math.floor((width * height) / 16000), 85);
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 135) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(56, 189, 248, ${0.14 * (1 - dist / 135)})`;
+            ctx.lineWidth = 0.8;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
         }
+      }
+      requestAnimationFrame(animate);
+    }
 
-        // Skill bar animation on load
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.querySelectorAll('.skill-bar-fill').forEach(fill => {
-                    fill.style.width = fill.getAttribute('data-width');
-                });
-            }, 500);
-        });
-
-        // Subtitle typing effect
-        const titles = [
-            "Administrative Supervisor | Financial Administrator & IT Specialist",
-            "Operations, Budgeting & Cash Workflow Management Expert",
-            "Windows/Linux Infrastructure & Technical Support Professional"
-        ];
-        let tIndex = 0, charIndex = 0, isDeleting = false;
-        const typingElement = document.getElementById('typing-text');
-
-        function typeEffect() {
-            const currentTitle = titles[tIndex];
-            if (isDeleting) {
-                typingElement.textContent = currentTitle.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                typingElement.textContent = currentTitle.substring(0, charIndex + 1);
-                charIndex++;
-            }
-
-            let speed = isDeleting ? 30 : 60;
-            if (!isDeleting && charIndex === currentTitle.length) {
-                speed = 2200;
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                tIndex = (tIndex + 1) % titles.length;
-                speed = 500;
-            }
-            setTimeout(typeEffect, speed);
-        }
-        setTimeout(typeEffect, 1000);
-
-        // Modal toggle function
-        function toggleModal(open) {
-            const modal = document.getElementById('coverModal');
-            if (open) {
-                modal.classList.add('active');
-            } else {
-                modal.classList.remove('active');
-            }
-        }
-    </script>
+    initParticles();
+    animate();
+  </script>
 </body>
 </html>
